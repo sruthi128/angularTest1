@@ -1,12 +1,9 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-  
-  <a href="#" (click)="link(home.innerHTML)" #home>Home</a> <br/><br/>
 
-  <a href="#" (click)="link(test.innerHTML)" #test>Test</a> <br/><br/>
-<form>
-  <input type="text" name="text" [value]="textClicked" > 
-  <input type="text" name="text" value="{{textClicked}}" > 
-</form>
+  <a href="#" (click)="link(home.innerHTML)" #home routerLink="home">Home</a> <br/><br/>
+
+  <a href="#" (click)="link(test.innerHTML)" #test routerLink="test">Test</a> <br/><br/>
+  <input type="text" [(ngModel)]="textClicked" >
+
 {{textClicked}}
-<router-outlet></router-outlet>

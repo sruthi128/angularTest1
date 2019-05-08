@@ -1,8 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:left; [color]: 'colourChange'">
-<h2> {{ title }} </h2>
+<div >
+<h2 [className]="titleClassName"> {{ title }} </h2>
   </div>
 <div style="text-align:right">
-  <button click="onClick($event)"> logout </button>
+  <button (click)="onLoginOrLogout()"> {{ loggedIn?"Logout":"Login" }} </button>
+  <div *ngIf="loggedIn">
+    Welcome Guest
+    <input type="text" value="Feedback"/>
   </div>
-<router-outlet></router-outlet>
+</div>
+

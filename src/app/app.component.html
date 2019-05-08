@@ -1,12 +1,16 @@
 
 <body>
   <div class="main-container">
-    <div style="width:100% ; height:100px ; background-color: brown" >
+    <div class="header-container" >
         <header-root></header-root>
     </div>
-    <div style="width:25% ; height:500px; background-color:cadetblue "> 
-      <menu-root></menu-root>
-     </div>
+    <div class="menu-container">
+     <menu-root></menu-root>
+    </div>
+    <div class="body-container">
+      <!-- <body-root [isLoggedIn]="true"></body-root> -->
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </body>
-<router-outlet></router-outlet>
+
