@@ -13,7 +13,7 @@
     <div *ngIf="usersList.length">
           <table border='1'>
         <tr><td>Name</td><td>Place</td><td>Phone Number</td><td>Delete</td><td>Favourites</td></tr>
-        <tr *ngFor="let user of usersList"><td>{{ user.name }}</td><td>{{ user.place }}</td><td>{{user.phone}}</td>
+        <tr *ngFor="let user of usersList"><td><a href="#" routerLink="/users/{{ user.name }}">{{ user.name }}</a></td><td>{{ user.place }}</td><td>{{user.phone}}</td>
           <td>
               <button (click)="onDelete(user)" #delete>delete</button>
           </td>

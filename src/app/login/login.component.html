@@ -1,5 +1,9 @@
 <div>
-    User Name: <input type="text" #username> <br /><br />
-    Password: <input type="text" #password> <br /><br />
-    <button (click)="onLogin(username.value, password.value)"> Login</button>
+  <form [formGroup]="form" (submit)="onLogin()">
+    User Name: <input type="text" formControlName="username"> <br /><br />
+    Password: <input type="text"  formControlName="password"> <br /><br />
+    <button type="submit"> Login</button>
+  </form>
+    <br /><br /><br />
+    {{ errorMessage }}
 </div>

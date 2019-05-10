@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BodyComponent } from '../body/body.component';
-import { BodyService } from '../body/body.service';
+import { UserService } from '../users/user.service';
 import { LoginService } from '../login/login.service';
 import { Subscription } from 'rxjs';
 
@@ -18,11 +17,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.textClicked=id
   }
   constructor(
-    private favList: BodyService,
+    private favList: UserService,
     private loginStatus: LoginService
   ){}
   ngOnInit(){
-    this.favSub = this.favList.favListObservable.subscribe(favouritesList => this.favouritesList = favouritesList);
+    this.favSub = this.favList.favListObservable.subscribe(favouritesList => {
+      this.favouritesList = favouritesList;
+    });
+    this.loggedIn = this.loginStatus.getLoggedIn();
     this.loginStatus.getLoginStatusListener().subscribe(loggedIn => this.loggedIn = loggedIn);
   }
 

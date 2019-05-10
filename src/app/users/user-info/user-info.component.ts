@@ -1,27 +1,32 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginService } from '../login/login.service';
+import { LoginService } from '../../login/login.service';
 import { Observable, Subscriber, Subscription } from 'rxjs';
-import { BodyService } from './body.service';
+
+import { UserService } from '../user.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { stringify } from '@angular/core/src/util';
 
 @Component({
-  selector: 'body-root',
-  templateUrl: './body.component.html',
-  styleUrls: ['./body.component.css']
+  selector: 'user-info-root',
+  templateUrl: './user-info.component.html',
+  styleUrls: ['./user-info.component.css']
 })
-export class BodyComponent implements OnInit, OnDestroy{
+export class UserInfoComponent implements OnInit, OnDestroy{
 
 
   constructor(
     private http: HttpClient,
     private loginStatus: LoginService,
-    private favList: BodyService
+    private favList: UserService,
+    public route: ActivatedRoute
   ){}
 
   private loginSub: Subscription;
   isLoggedIn = false;
   isLoading = false;
-   usersList = [ ];
+   userInfoList = [ ];
+   userId = '';
    //favouritesList = [  ];
 
   /*  userArray = this.userMasterArray.map((item) => {
@@ -31,18 +36,7 @@ export class BodyComponent implements OnInit, OnDestroy{
     };
     return resp;
   });*/
-  onsubmit = (argName: string, argPlace: string, argPhone: string) => {
-    this.usersList.push(
-      {
-      name : argName,
-      place : argPlace,
-      phone : argPhone
-      }
-    );
-  }
-  onDelete = (user) => {
-    this.usersList.splice(this.usersList.indexOf(user), 1);
-  }
+
 
   ngOnInit() {
     this.isLoggedIn = this.loginStatus.getLoggedIn();
@@ -51,27 +45,27 @@ export class BodyComponent implements OnInit, OnDestroy{
     }
     );
 
-    this.isLoading = true;
-    this.http.get('https://api.github.com/users/hadley/orgs')
-    .subscribe((httpData: Array<any>) => {
-      for(let item of httpData) {
-        this.usersList.push(
-          {
-            name: item.login,
-            place: item.login,
-            phone: item.id+''
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if(paramMap.has('userId')) {
+        this.userId = paramMap.get("userId");
+        this.isLoading = true;
+        this.http.get('https://api.github.com/users/'+ this.userId)
+        .subscribe((httpData: Array<any>) => {
+          for(let item of Object.entries(httpData)) {
+            this.userInfoList.push(
+              {
+                name: item[0],
+                value: item[1]
+              }
+            );
           }
-        );
+          this.isLoading = false;
+
+        });
       }
-      this.isLoading = false;
-    //   this.usersList.append(httpData.map((item) => {
-    //     return {
-    //       name: item.login,
-    //       place: item.login,
-    //       phone: item.id + ''
-    //     };
-    //   }));
     });
+
+
   }
   onLogin = (username:string, password:string) => {
     if(username == "admin" && password == "admin"){

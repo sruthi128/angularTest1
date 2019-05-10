@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class LoginService {
+  constructor(
+    private router: Router
+  ){}
   private loginStatusListener = new Subject<boolean>();
   isLoggedIn = false;
 
@@ -20,6 +24,7 @@ export class LoginService {
   doLogout() {
     this.isLoggedIn = false;
     this.loginStatusListener.next(this.isLoggedIn)
+    this.router.navigate(["/"]);
   }
 
 }

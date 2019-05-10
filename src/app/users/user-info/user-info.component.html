@@ -1,0 +1,17 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div *ngIf="isLoggedIn" >
+    <h3>UserInfo of {{userId}}</h3>
+  <div *ngIf="isLoading"> Loading....</div>
+  <div style = "text-align: center">
+    <div *ngIf="userInfoList.length">
+          <table border='1'>
+        <tr><td>Name</td><td>Value</td></tr>
+        <tr *ngFor="let userInfo of userInfoList"><td>{{ userInfo.name }}</td><td>{{ userInfo.value }}</td>
+          <td *ngIf="userInfo.name=='avatar_url'"><img width='50px' src='{{ userInfo.value }}' /></td>
+      </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
