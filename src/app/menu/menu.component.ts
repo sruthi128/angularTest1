@@ -12,6 +12,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   favouritesList = [  ];
   favSub: Subscription;
   loggedIn;
+  loginName;
   textClicked:string = "Click any link";
   link(id: string){
     this.textClicked=id
@@ -26,6 +27,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
     this.loggedIn = this.loginStatus.getLoggedIn();
     this.loginStatus.getLoginStatusListener().subscribe(loggedIn => this.loggedIn = loggedIn);
+
+    this.loginName = this.loginStatus.getLoginName();
+    this.loginStatus.getLoginNameListener().subscribe(loginName => this.loginName = loginName);
   }
 
   ngOnDestroy() {

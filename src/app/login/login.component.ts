@@ -47,12 +47,16 @@ export class LoginComponent implements OnInit, OnDestroy{
     if(username == "admin" && password == "admin"){
 
       this.isLoggedIn = true;
-      this.loginStatus.doLogin();
-    } else {
-      this.errorMessage = 'Invalid Credentials';
+      this.loginStatus.doLogin(username);
+    }
+    else if(username == "user" && password == "user"){
+      this.isLoggedIn = true;
+      this.loginStatus.doLogin(username);
+     }
+    else {
+    this.errorMessage = 'Invalid Credentials';
     }
   }
-
   ngOnDestroy(): void {
     this.loginSub.unsubscribe();
   }

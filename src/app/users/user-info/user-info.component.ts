@@ -67,18 +67,18 @@ export class UserInfoComponent implements OnInit, OnDestroy{
 
 
   }
-  onLogin = (username:string, password:string) => {
+/*  onLogin = (username:string, password:string) => {
     if(username == "admin" && password == "admin"){
 
       this.isLoggedIn = true;
-      this.loginStatus.doLogin();
+      this.loginStatus.doLogin(username);
     }
   }
   moveToFav = (user) =>{
     //this.favouritesList.push(user)
     //this.favList.favListChange(this.favouritesList)
     this.favList.addFav(user);
-  }
+  }*/
   ngOnDestroy(): void {
     this.loginSub.unsubscribe();
   }

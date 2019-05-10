@@ -13,7 +13,7 @@ export class HeaderComponent{
     titleClassName = "titleDefault";
     timerEnabled = false;
     loggedIn = false;
-
+    loginName = ''
 
   constructor(
     private loginStatus: LoginService
@@ -23,7 +23,12 @@ export class HeaderComponent{
     this.loggedIn = this.loginStatus.getLoggedIn();
     this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
       this.loggedIn = loginState;
-    });
+    } );
+
+    this.loginName = this.loginStatus.getLoginName();
+    this.loginSub = this.loginStatus.getLoginNameListener().subscribe((loginState) => {
+      this.loginName = loginState;
+    } );
   }
   /* implements OnInit{
   ngOnInit(): void {

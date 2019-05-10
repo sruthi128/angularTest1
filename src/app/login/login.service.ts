@@ -8,17 +8,26 @@ export class LoginService {
     private router: Router
   ){}
   private loginStatusListener = new Subject<boolean>();
+  private loginNameListener = new Subject<string>();
   isLoggedIn = false;
-
+  loginName = ''
   getLoginStatusListener() {
     return this.loginStatusListener.asObservable();
+  }
+  getLoginNameListener() {
+    return this.loginNameListener.asObservable();
+  }
+  getLoginName() {
+    return this.loginName;
   }
   getLoggedIn() {
     return this.isLoggedIn;
   }
-  doLogin() {
+  doLogin(loginName) {
+    console.log(loginName)
     this.isLoggedIn = true;
     this.loginStatusListener.next(this.isLoggedIn)
+    this.loginNameListener.next(loginName)
   }
 
   doLogout() {
