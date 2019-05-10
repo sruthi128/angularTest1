@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
+import { timer, Subscription } from 'rxjs';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'header-root',
@@ -7,17 +8,30 @@ import { timer } from 'rxjs';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent{
+  private loginSub: Subscription;
+  title = 'Hi';
+    titleClassName = "titleDefault";
+    timerEnabled = false;
+    loggedIn = false;
+
+
+  constructor(
+    private loginStatus: LoginService
+  ){ }
+
+   ngOnInit(): void {
+    this.loggedIn = this.loginStatus.getLoggedIn();
+    this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
+      this.loggedIn = loginState;
+    });
+  }
   /* implements OnInit{
   ngOnInit(): void {
     this.timerEnabled = true;
     this.runTimer();
   }*/
-  title = 'Hi';
-  titleClassName = "titleDefault";
-  timerEnabled = false;
-  loggedIn = false;
 
-  runTimer = () => {
+    runTimer = () => {
     if(this.timerEnabled) {
       setTimeout(() => {
         if(this.titleClassName=="titleDefault")
@@ -29,7 +43,7 @@ export class HeaderComponent{
     }
   }
 
-  onLoginOrLogout = () => {
+    onLogout = () => {
     //this.titleClassName= "titleRed"
     if(this.timerEnabled)
       this.timerEnabled = false;
@@ -37,11 +51,16 @@ export class HeaderComponent{
       this.timerEnabled = true;
     this.runTimer();
 
-
-    if(this.loggedIn)
+    if(this.loggedIn) {
       this.loggedIn = false;
-    else
+      this.loginStatus.doLogout();
+    }
+    /*else {
       this.loggedIn = true;
+      this.loginStatus.doLogin();
+    }*/
+
+
   }
 
 

@@ -3,7 +3,7 @@
 <h2 [className]="titleClassName"> {{ title }} </h2>
   </div>
 <div style="text-align:right">
-  <button (click)="onLoginOrLogout()"> {{ loggedIn?"Logout":"Login" }} </button>
+  <button (click)="onLogout()"> {{ loggedIn?"Logout":"Login" }} </button>
   <div *ngIf="loggedIn">
     Welcome Guest
     <input type="text" value="Feedback"/>

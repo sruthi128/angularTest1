@@ -1,21 +1,33 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style = "text-align: center">
-  <form>
-    <input type="text" #name> <br /><br />
-    <input type="text" #place> <br /><br />
-    <input type="text" #phone> <br /><br />
-    <br /><br />
-   <button (click)="onSubmit(name.value, place.value, phone.value)"> Submit </button>&nbsp;&nbsp;&nbsp;
-    <button (click)="onClear()"> Clear </button>
-  </form>
-  <pre>{{dataEnterred}}</pre>
 
-  <div *ngIf="userArray.length">
-    Names are below
-    <table border='1'>
-      <tr><td>Name</td><td>Place</td></tr>
-      <tr *ngFor="let user of userArray"><td>{{ user.name }}</td><td>{{ user.place }}</td></tr>
-    </table>
-  </div>
+<div *ngIf="isLoggedIn ; else elseBlock" >
+  <div *ngIf="isLoading"> Loading....</div>
+  <div style = "text-align: center">
 
+      Name: <input type="text" #name> <br /><br />
+      Place: <input type="text" #place> <br /><br />
+      Phone Number:<input type="text" #phone> <br /><br />
+      <br /><br />
+    <button (click)="onsubmit(name.value, place.value, phone.value)"> Submit </button>&nbsp;&nbsp;&nbsp;
+
+    <div *ngIf="usersList.length">
+          <table border='1'>
+        <tr><td>Name</td><td>Place</td><td>Phone Number</td><td>Delete</td><td>Favourites</td></tr>
+        <tr *ngFor="let user of usersList"><td>{{ user.name }}</td><td>{{ user.place }}</td><td>{{user.phone}}</td>
+          <td>
+              <button (click)="onDelete(user)" #delete>delete</button>
+          </td>
+          <td>
+              <button (click)="moveToFav(user)" #fav>move to favourites</button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
+</div>
+
+<ng-template #elseBlock>
+    User Name: <input type="text" #username> <br /><br />
+    Password: <input type="text" #password> <br /><br />
+    <button (click)="onLogin(username.value, password.value)"> Login</button>
+  </ng-template>
