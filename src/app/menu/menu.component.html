@@ -1,9 +1,16 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<div *ngIf = "loginName == 'admin'">
-    <a href="#" (click)="link(home.innerHTML)" #home routerLink="/home">Home</a> <br/><br/>
 
-    <a href="#" (click)="link(users.innerHTML)" #users routerLink="users">Users</a> <br/><br/>
+    <a href="#" #home routerLink="/home">Home</a> <br/><br/>
+
+    <div *ngIf = "loginName == 'admin'">
+    <a href="#" #users routerLink="/users">Users</a> <br/><br/>
+    <a href="#" #addOrg routerLink="/addOrg">Add Organization of TV Asia</a> <br/><br/>
+
+    <a href="#" #addOrg routerLink="/listOrg">Organizations List</a> <br/><br/>
+
+    <a href="#" #addOrg routerLink="/githubList">Github Repository Data</a> <br/><br/>
+    </div>
 
     <input type="text" [(ngModel)]="textClicked" >
 
@@ -17,8 +24,6 @@
     </tr>
   </table>
   </div>
-  </div>
 </div>
-
 
 

@@ -27,17 +27,6 @@ export class UserInfoComponent implements OnInit, OnDestroy{
   isLoading = false;
    userInfoList = [ ];
    userId = '';
-   //favouritesList = [  ];
-
-  /*  userArray = this.userMasterArray.map((item) => {
-    const resp = {
-      name: item.name,
-      place: item.place.name +" (" +item.place.population+")"
-    };
-    return resp;
-  });*/
-
-
   ngOnInit() {
     this.isLoggedIn = this.loginStatus.getLoggedIn();
     this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
@@ -67,20 +56,9 @@ export class UserInfoComponent implements OnInit, OnDestroy{
 
 
   }
-/*  onLogin = (username:string, password:string) => {
-    if(username == "admin" && password == "admin"){
-
-      this.isLoggedIn = true;
-      this.loginStatus.doLogin(username);
-    }
-  }
-  moveToFav = (user) =>{
-    //this.favouritesList.push(user)
-    //this.favList.favListChange(this.favouritesList)
-    this.favList.addFav(user);
-  }*/
   ngOnDestroy(): void {
     this.loginSub.unsubscribe();
   }
+  displayedColumns: string[] = ['name', 'value'];
 }
 

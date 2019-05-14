@@ -1,0 +1,10 @@
+<div>
+    <form [formGroup]="form" (submit)="addEmployee()">
+      Id: <input type="text" formControlName="employeeId"> <br /><br />
+      Name: <input type="text"  formControlName="employeeName"> <br /><br />
+      Salary: <input type="text"  formControlName="employeeSalary"> <br /><br />
+      <button type="submit"> Add</button>
+    </form>
+      <br /><br /><br />
+      {{ errorMessage }}
+  </div>

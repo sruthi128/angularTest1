@@ -1,0 +1,15 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div *ngIf="isLoggedIn" class='main-container'>
+
+    <div style = "text-align: center">
+      <form [formGroup]="form" (submit)="addOrganization()">
+        <mat-form-field>
+          <input matInput placeholder="Enter Organization Name" formControlName="orgName"> <br/>
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit"> Submit</button>
+      </form>
+    </div>
+    {{errorMessage}}
+</div>
+

@@ -30,6 +30,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     this.loginName = this.loginStatus.getLoginName();
     this.loginStatus.getLoginNameListener().subscribe(loginName => this.loginName = loginName);
+    console.log(this.loggedIn);
+    console.log(this.loginName);
   }
 
   ngOnDestroy() {

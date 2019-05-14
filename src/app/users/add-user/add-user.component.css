@@ -1,0 +1,10 @@
+.titleDefault {
+  color: white;
+}
+
+.titleRed {
+  color: blue;
+}
+mat-form-field {
+  width: 400px
+}

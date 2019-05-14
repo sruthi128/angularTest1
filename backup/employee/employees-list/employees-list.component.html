@@ -1,0 +1,21 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div *ngIf="isLoggedIn ">
+    <h2>Employees List</h2>
+
+
+    <div *ngIf="employeeList.length">
+          <table border='1'>
+        <tr><td>ID</td><td>Name</td><td>Salary</td><td>Delete</td></tr>
+        <tr *ngFor="let employee of employeeList">
+          <td> {{ employee.name }}</td>
+          <td>{{ employee.place }}</td>
+          <td>{{employee.phone}}</td>
+          <td>
+              <button (click)="onDelete(user)" #delete>delete</button>
+          </td>
+        </tr>
+      </table>&nbsp;&nbsp;&nbsp;
+    </div>
+    <button (click)="addEmployee(name.value, place.value, phone.value)"> Add Employee </button>
+</div>

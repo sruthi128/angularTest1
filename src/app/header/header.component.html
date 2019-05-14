@@ -1,4 +1,4 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<!--The content below is only a placeholder and can be replaced.
 <div *ngIf="loginName">
 <h2 [className]="titleClassName"> {{ title }} </h2>
   </div>
@@ -9,4 +9,17 @@
     <input type="text" value="Feedback"/>
   </div>
 </div>
+-->
+<mat-toolbar color="accent">
+     <mat-toolbar-row>
+        <span class="title">{{ title }}</span>
+        <span class="example-spacer"></span>
+        <button mat-flat-button color="primary" (click)="onLogout()">{{ loggedIn?"Logout":"Login" }}</button>
+      </mat-toolbar-row>
 
+    <mat-toolbar-row>
+        <span class="example-spacer"></span>
+      <span *ngIf="loggedIn" class="example-spacer"></span>
+      <span>Welcome Guest</span>
+    </mat-toolbar-row>
+  </mat-toolbar>

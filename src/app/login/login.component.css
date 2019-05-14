@@ -5,3 +5,20 @@
 .titleRed {
   color: blue;
 }
+
+.main-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.login-form-container {
+  width: 500px;
+  height: 250px;
+  padding-top: 100px;
+  margin: auto;
+}
+
+.example-full-width {
+  width: 100%;
+}

@@ -1,18 +1,3 @@
-.titleDefault {
-  color: white;
-}
-
-.titleRed {
-  color: blue;
-}
-
-.localUser {
-  background-color: yellow;
-}
-
-.webUser {
-  background-color: white;
-}
 
 .main-container {
   margin: 20px;
@@ -20,6 +5,7 @@
 
 mat-table {
   width: 600px;
+  font: 20;
 }
 mat-progress-spinner{
   display: flex;

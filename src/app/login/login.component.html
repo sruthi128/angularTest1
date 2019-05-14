@@ -1,9 +1,17 @@
-<div>
+<div class='main-container'>
+
+  <mat-card class='login-form-container'>
+      <h2>Please sign in...</h2>
   <form [formGroup]="form" (submit)="onLogin()">
-    User Name: <input type="text" formControlName="username"> <br /><br />
-    Password: <input type="text"  formControlName="password"> <br /><br />
-    <button type="submit"> Login</button>
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="User Name" formControlName="username">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="Password" formControlName="password">
+      </mat-form-field>
+    <button mat-raised-button color="accent" type="submit"> Login</button>
   </form>
     <br /><br /><br />
     {{ errorMessage }}
+  </mat-card>
 </div>

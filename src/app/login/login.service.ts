@@ -24,16 +24,25 @@ export class LoginService {
     return this.isLoggedIn;
   }
   doLogin(loginName) {
-    console.log(loginName)
+    console.log(loginName);
+    localStorage.setItem('username', loginName);
     this.isLoggedIn = true;
+    this.loginName = loginName;
     this.loginStatusListener.next(this.isLoggedIn)
-    this.loginNameListener.next(loginName)
+    this.loginNameListener.next(loginName);
+    this.router.navigate(["/home"]);
   }
 
   doLogout() {
+    localStorage.removeItem('username');
     this.isLoggedIn = false;
+    this.loginName = '';
     this.loginStatusListener.next(this.isLoggedIn)
-    this.router.navigate(["/"]);
+    this.router.navigate(["/login"]);
+  }
+
+  getStoredToken() {
+    return localStorage.getItem('token');
   }
 
 }

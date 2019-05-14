@@ -1,7 +1,6 @@
-.titleDefault {
-  color: white;
+.example-spacer {
+  flex: 1 1 auto;
 }
-
-.titleRed {
-  color: blue;
+.title {
+  text-align: center;
 }

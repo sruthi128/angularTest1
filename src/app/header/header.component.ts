@@ -14,11 +14,9 @@ export class HeaderComponent{
     timerEnabled = false;
     loggedIn = false;
     loginName = ''
-
   constructor(
     private loginStatus: LoginService
   ){ }
-
    ngOnInit(): void {
     this.loggedIn = this.loginStatus.getLoggedIn();
     this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
@@ -35,38 +33,30 @@ export class HeaderComponent{
     this.timerEnabled = true;
     this.runTimer();
   }*/
-
     runTimer = () => {
     if(this.timerEnabled) {
       setTimeout(() => {
-        if(this.titleClassName=="titleDefault")
+        if(this.titleClassName=='titleDefault') {
           this.titleClassName= "titleRed"
-        else
+        }
+        else {
           this.titleClassName= "titleDefault"
+        }
         this.runTimer();
       },200);
     }
   }
-
-    onLogout = () => {
-    //this.titleClassName= "titleRed"
-    if(this.timerEnabled)
+   onLogout = () => {
+    if(this.timerEnabled) {
       this.timerEnabled = false;
-    else
+    }
+    else {
       this.timerEnabled = true;
+    }
     this.runTimer();
-
     if(this.loggedIn) {
       this.loggedIn = false;
       this.loginStatus.doLogout();
     }
-    /*else {
-      this.loggedIn = true;
-      this.loginStatus.doLogin();
-    }*/
-
-
   }
-
-
 }

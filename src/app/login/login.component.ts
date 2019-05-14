@@ -30,11 +30,19 @@ export class LoginComponent implements OnInit, OnDestroy{
         validators: [Validators.required, Validators.minLength(4)]
       }),
     });
-    this.isLoggedIn = this.loginStatus.getLoggedIn();
-    this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
-      this.isLoggedIn = loginState;
-      }
-    );
+
+    if(localStorage.getItem('username')) {
+      this.isLoggedIn = true;
+      this.loginStatus.doLogin(localStorage.getItem('username'));
+    }
+    else {
+      this.isLoggedIn = this.loginStatus.getLoggedIn();
+      this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
+        this.isLoggedIn = loginState;
+        }
+      );
+    }
+
 
   }
   onLogin = () => {
@@ -44,21 +52,41 @@ export class LoginComponent implements OnInit, OnDestroy{
     }
     const username = this.form.value.username;
     const password = this.form.value.password;
-    if(username == "admin" && password == "admin"){
 
-      this.isLoggedIn = true;
-      this.loginStatus.doLogin(username);
-    }
-    else if(username == "user" && password == "user"){
-      this.isLoggedIn = true;
-      this.loginStatus.doLogin(username);
-     }
-    else {
-    this.errorMessage = 'Invalid Credentials';
-    }
+    const reqBody = {
+      "username": username,
+      "password": password
+    };
+    this.http.post('http://events.tvasiausa.com:3000/v1/loginAdmin',reqBody)
+    .subscribe((httpData: any) => {
+        //this.isLoading = false;
+        if(httpData.token) {
+          localStorage.setItem('token',httpData.token);
+          this.isLoggedIn = true;
+          this.loginStatus.doLogin(username);
+        } else {
+          this.errorMessage = 'Invalid Credentials';
+        }
+      });
+
+
+    // if(username == "admin" && password == "admin"){
+
+    //   this.isLoggedIn = true;
+    //   this.loginStatus.doLogin(username);
+    // }
+    // else if(username == "user" && password == "user"){
+
+    //   this.isLoggedIn = true;
+    //   this.loginStatus.doLogin(username);
+    //  }
+    // else {
+    // this.errorMessage = 'Invalid Credentials';
+    // }
   }
   ngOnDestroy(): void {
-    this.loginSub.unsubscribe();
+    if(this.loginSub)
+      this.loginSub.unsubscribe();
   }
 }
 

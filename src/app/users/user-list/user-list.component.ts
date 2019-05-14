@@ -1,93 +1,103 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginService } from '../../login/login.service';
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { User } from '../user.model';
+import {MatDialog, MatDialogRef, PageEvent} from '@angular/material';
 
+interface UserDisplayList extends User {
+  rowClass: string;
+}
+
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 @Component({
   selector: 'user-list-root',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit, OnDestroy{
-
-
+export class UserListComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
-    private loginStatus: LoginService,
-    private favList: UserService
-  ){}
+    private userService: UserService,
+    public dialog: MatDialog,
+  ){
 
+    //public dialogRef: MatDialogRef;
+  }
   private loginSub: Subscription;
-  isLoggedIn = false;
   isLoading = false;
-   usersList: User[] = [];
-   //favouritesList = [  ];
+   usersList: UserDisplayList[] = [];
+   maxUsers = 50;
+   pageSize = 5;
+   pageSizeOptions: number[] = [5, 10, 25];
+   currentPage = 1;
 
-  /*  userArray = this.userMasterArray.map((item) => {
-    const resp = {
-      name: item.name,
-      place: item.place.name +" (" +item.place.population+")"
-    };
-    return resp;
-  });*/
-  onsubmit = (argName: string, argPlace: string, argPhone: string) => {
-    this.usersList.push(
-      {
-      name : argName,
-      place : argPlace,
-      phone : argPhone
-      }
-    );
-  }
-  onDelete = (user) => {
-    this.usersList.splice(this.usersList.indexOf(user), 1);
-  }
-
-  ngOnInit() {
-    this.isLoggedIn = this.loginStatus.getLoggedIn();
-    this.loginSub = this.loginStatus.getLoginStatusListener().subscribe((loginState) => {
-      this.isLoggedIn = loginState;
-    }
-    );
-
-    this.isLoading = true;
-    this.http.get('https://api.github.com/users')
-    .subscribe((httpData: Array<any>) => {
-      for(let item of httpData) {
-        this.usersList.push(
-          {
-            name: item.login,
-            place: item.login,
-            phone: item.id+''
-          }
-        );
-      }
-      this.isLoading = false;
-    //   this.usersList.append(httpData.map((item) => {
-    //     return {
-    //       name: item.login,
-    //       place: item.login,
-    //       phone: item.id + ''
-    //     };
-    //   }));
+   pageEvent: PageEvent;
+ /*  openDialog = () =>{
+    const dialogRef = this.dialog.open(Dialog, {
+      width: '250px'
     });
-  }
- /* onLogin = (username:string, password:string) => {
-    if(username == "admin" && password == "admin"){
+   }*/
+  displayedColumns: string[] = ['name', 'place', 'phone', 'actions'];
+   onDelete = (user) => {
+    this.usersList.splice(this.usersList.indexOf(user), 1);
+    this.userService.deleteUser(user.name);
+   }
+  ngOnInit() {
+   this.isLoading = true;
 
-      this.isLoggedIn = true;
-      this.loginStatus.doLogin(username);
-    }
-  }*/
-  moveToFav = (user) =>{
-    //this.favouritesList.push(user)
-    //this.favList.favListChange(this.favouritesList)
-    this.favList.addFav(user);
+
+    this.getUsers();
   }
+ /* onNoClick(): void {
+    this.dialogRef.close();
+  }*/
+  moveToFav = (user) => {
+    this.userService.addFav(user);
+  }
+
+
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.currentPage = pageData.pageIndex + 1;
+    this.pageSize = pageData.pageSize;
+    this.getUsers();
+  }
+
+  private getUsers = () => {
+
+    // for (let item of this.userService.getUsersList() ) {
+    //   this.usersList.push(
+    //     {
+    //       ...item,
+    //       rowClass: 'localUser'
+    //     });
+    // }
+    this.usersList = [];
+
+    const queryParams = '?per_page='+this.pageSize+'&since='+((this.currentPage-1)*this.pageSize+1);
+    this.http.get('https://api.github.com/users'+queryParams)
+   .subscribe((httpData: Array<any>) => {
+     this.isLoading = false;
+     for (let item of httpData) {
+       this.usersList.push(
+         {
+           name: item.login,
+           place: item.login,
+           phone: item.id + '',
+           rowClass: 'webUser'
+         }
+       );
+     }
+   }
+   );
+  }
+
   ngOnDestroy(): void {
-    this.loginSub.unsubscribe();
   }
 }
-
